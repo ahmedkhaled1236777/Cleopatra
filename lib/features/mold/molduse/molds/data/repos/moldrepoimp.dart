@@ -46,9 +46,9 @@ class moldusagerepoimp extends moldusagerepo {
     try {
       await FirebaseFirestore.instance
           .collection("moldusages")
-          .doc("${moldmodel.moldname}")
+          .doc(moldmodel.moldname)
           .update(
-              {"numberofuses": FieldValue.increment(moldmodel.numberofuses)});
+              {"karton": moldmodel.karton,"bag":moldmodel.bag,"can":moldmodel.can,"glutinous":moldmodel.glutinous});
       return right("تم تعديل بيانات الاسطمبه بنجاح");
       // ignore: empty_catches
     } catch (e) {

@@ -48,23 +48,31 @@ class productionhallrepoimplementation extends productionhallrepo {
   Future<Either<failure, String>> deleteproduction(
       {required productionhallmodel prduction}) async {
     try {
-      await FirebaseFirestore.instance.runTransaction((transaction) async {
-        await FirebaseFirestore.instance
-            .collection("productionshall")
-            .doc(prduction.ordernumber)
-            .collection(prduction.ordernumber)
-            .get()
-            .then((value) {
-          value.docs.forEach((e) {
-            transaction.delete(e.reference);
-          });
-        });
-        final secondref = await FirebaseFirestore.instance
-            .collection("productionshall")
-            .doc(prduction.ordernumber);
-        transaction.delete(secondref);
-      });
+     final batch = FirebaseFirestore.instance.batch();
+  
+  // 1. Fetch the subcollection
+  final subCollectionSnapshot = await FirebaseFirestore.instance
+      .collection("productionshall")
+      .doc(prduction.ordernumber)
+      .collection(prduction.ordernumber)
+      .get();
 
+  // 2. Explicitly check if docs exist
+  if (subCollectionSnapshot.docs.isNotEmpty) {
+    for (var doc in subCollectionSnapshot.docs) {
+      batch.delete(doc.reference);
+    }
+  }
+
+  // 3. Delete the parent document
+  final parentRef = FirebaseFirestore.instance
+      .collection("productionshall")
+      .doc(prduction.ordernumber);
+  
+  batch.delete(parentRef);
+
+  // 4. Commit the changes
+  await batch.commit();
       return right("تم حذف الاوردر بنجاح");
       // ignore: empty_catches
     } catch (e) {

@@ -20,7 +20,6 @@ class productioncuibt extends Cubit<productiontates> {
   List<dynamic> selecteditems = [];
   List<String> diagnoses = [];
   Map timerrate = {};
-  bool firsttime = true;
   List<bool> checks = [];
   List<Ordermodel> orders = [];
   List<Ordermodel> injorders = [];
@@ -197,15 +196,18 @@ class productioncuibt extends Cubit<productiontates> {
   }
 
   gettimers() async {
-    if (firsttime) emit(GetTimerLoading());
+     emit(GetTimerLoading());
     var result = await productionrepoimplementatio.gettimers();
     result.fold((failure) {
       emit(GetTimerFailure(errormessage: failure.error_message));
     }, (success) {
-      firsttime = false;
       timers = success;
       timerrate = {};
+         List<String> mymolds = [];
+    
       timers.forEach((element) {
+                mymolds.add(element.moldname);
+
         timerrate.addAll({
           "${element.moldname}-${element.materialtype}": {
             "cycletime": element.secondsperpiece,
@@ -217,6 +219,8 @@ class productioncuibt extends Cubit<productiontates> {
           }
         });
       });
+            cashhelper.setdata(key: "mymolds", value: mymolds);
+
       emit(
           GetTimerSuccess(successmessage: "تم الحصول علي جميع المعدلات بنجاح"));
     });

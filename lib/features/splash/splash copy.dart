@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:cleopatra/core/common/navigation.dart';
 import 'package:cleopatra/core/common/sharedpref/cashhelper.dart';
 import 'package:cleopatra/features/auth/login/presentation/views/newlogin.dart';
-import 'package:cleopatra/features/home/presentation/view/home1.dart';
 import 'package:cleopatra/features/home/presentation/view/widgets/home.dart';
 
 class LogoAnimationScreen extends StatefulWidget {
@@ -64,6 +62,6 @@ class LogoAnimationScreenState extends State<LogoAnimationScreen> {
                 opacity: showtext ? 1.0 : 0.0,
                 duration: const Duration(milliseconds: 2000),
                 // The green box must be a child of the AnimatedOpacity widget.
-                child: Image.asset("assets/images/elsenwar.jpg"))));
+                child: Image.asset("assets/images/cleopatrahome.png"))));
   }
 }

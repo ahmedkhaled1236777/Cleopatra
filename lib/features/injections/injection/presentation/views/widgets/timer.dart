@@ -94,7 +94,7 @@ class _timerState extends State<timer> {
               backgroundColor: appcolors.maincolor,
               centerTitle: true,
               title: const Text(
-                "المعدلات",
+                "الاسطمبات",
                 style: TextStyle(
                     color: Colors.white,
                     fontFamily: "cairo",
@@ -122,15 +122,17 @@ class _timerState extends State<timer> {
               ),
               Expanded(
                   child: RefreshIndicator(
-                onRefresh: () async {},
+                onRefresh: () async {      await BlocProvider.of<productioncuibt>(context).gettimers();
+},
                 child: BlocConsumer<productioncuibt, productiontates>(
                     listener: (context, state) {
-                  if (state is GetTimerFailure)
+                  if (state is GetTimerFailure) {
                     showtoast(
                                                                                                         context: context,
 
                         message: state.errormessage,
                         toaststate: Toaststate.error);
+                  }
                 }, builder: (context, state) {
                   if (state is GetTimerLoading) return loadingshimmer();
                   if (state is getorderfailure)
@@ -153,11 +155,11 @@ class _timerState extends State<timer> {
                                         .numberofpieces,
                                 edit: IconButton(
                                     onPressed: () {
-                                      if (!permession.contains('تعديل زمن حقن'))
+                                      if (!permession.contains('تعديل زمن حقن')) {
                                         showdialogerror(
                                             error: "ليس لديك الصلاحيه",
                                             context: context);
-                                      else {
+                                      } else {
                                         if (BlocProvider.of<productioncuibt>(
                                                     context)
                                                 .timers[i]
@@ -251,7 +253,7 @@ class _timerState extends State<timer> {
                                         showdialogerror(
                                             error: "ليس لديك الصلاحيه",
                                             context: context);
-                                      else
+                                      else {
                                         awsomdialogerror(
                                             context: context,
                                             mywidget: BlocConsumer<
@@ -324,6 +326,7 @@ class _timerState extends State<timer> {
                                             ),
                                             tittle:
                                                 "هل تريد حذف معدل ${BlocProvider.of<productioncuibt>(context).timers[i].moldname}");
+                                      }
                                     },
                                     icon: Icon(
                                       deleteicon,

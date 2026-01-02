@@ -3,14 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:cleopatra/core/colors/colors.dart';
 
 class customtablecomponentitem extends StatelessWidget {
-  final Widget show;
-  final Widget share;
   final String name;
   Widget?edit;
 
 TextStyle  textStyle=TextStyle(fontSize: 12,fontFamily: "cairo",color: appcolors.maincolor);
 
-   customtablecomponentitem({super.key, required this.edit, required this.share,required this.show,required this.name});
+   customtablecomponentitem({super.key, required this.edit,required this.name});
   // ignore: non_constant_identifier_names
   
   @override
@@ -31,18 +29,7 @@ TextStyle  textStyle=TextStyle(fontSize: 12,fontFamily: "cairo",color: appcolors
           const SizedBox(
             width: 3,
           ),
-          Expanded(
-              flex: 3,
-              child: show),
-          const SizedBox(
-            width: 3,
-          ),
-          Expanded(
-              flex: 3,
-              child: share),
-          const SizedBox(
-            width: 3,
-          ),
+        
         
          
             Expanded(

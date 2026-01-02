@@ -71,21 +71,22 @@ class _productionState extends State<productionhall> {
           Expanded(
               child: BlocConsumer<productionhallcuibt, productionhalltates>(
                   listener: (context, state) {
-            if (state is getproductionhalltatefailure)
+            if (state is getproductionhalltatefailure) {
               showtoast(
                                                                                                   context: context,
 
                   message: state.error_message, toaststate: Toaststate.error);
+            }
           }, builder: (context, state) {
             if (state is getproductionhalltateloading) return loadingshimmer();
-            if (state is getproductionhalltatefailure)
+            if (state is getproductionhalltatefailure) {
               return SizedBox();
-            else {
+            } else {
               if (BlocProvider.of<productionhallcuibt>(context)
                   .myproduction
-                  .isEmpty)
+                  .isEmpty) {
                 return nodata();
-              else {
+              } else {
                 return ListView.separated(
                     itemBuilder: (context, i) => InkWell(
                           onLongPress: () {
@@ -152,7 +153,7 @@ class _productionState extends State<productionhall> {
                                       .myproduction[i]
                                       .ordernumber,
                               name:
-                                  "${BlocProvider.of<productionhallcuibt>(context).myproduction[i].name}",
+                                  BlocProvider.of<productionhallcuibt>(context).myproduction[i].name,
                               quantaity:
                                   BlocProvider.of<productionhallcuibt>(context)
                                       .myproduction[i]
@@ -164,7 +165,7 @@ class _productionState extends State<productionhall> {
                                       showdialogerror(
                                           error: "ليس لديك الصلاحيه",
                                           context: context);
-                                    } else
+                                    } else {
                                       awsomdialogerror(
                                           context: context,
                                           mywidget: BlocConsumer<
@@ -198,8 +199,9 @@ class _productionState extends State<productionhall> {
                                             },
                                             builder: (context, state) {
                                               if (state
-                                                  is deleteproductionhalltateloadind)
+                                                  is deleteproductionhalltateloadind) {
                                                 return deleteloading();
+                                              }
                                               return SizedBox(
                                                 height: 50,
                                                 width: 100,
@@ -237,6 +239,7 @@ class _productionState extends State<productionhall> {
                                           ),
                                           tittle:
                                               "هل تريد حذف الاوردر رقم ${BlocProvider.of<productionhallcuibt>(context).myproduction[i].ordernumber}");
+                                    }
                                   },
                                   icon: Icon(
                                     deleteicon,
@@ -267,19 +270,22 @@ class _productionState extends State<productionhall> {
                         await BlocProvider.of<componentCubit>(context)
                             .prodchange("اختر المنتج");
 
-                        navigateto(context: context, page: addhallreport());
+                        navigateto(context: context, page: addhallreport(
+                                                ordernumber: "${DateTime.now().year}${DateTime.now().month<10?"0${DateTime.now().month}":"${DateTime.now().month}"}${DateTime.now().day<10?"0${DateTime.now().day}":"${DateTime.now().day}"}${DateTime.now().hashCode<10?"0${DateTime.now().hour}":"${DateTime.now().hour}"}${DateTime.now().minute<10?"0${DateTime.now().minute}":"${DateTime.now().minute}"}${DateTime.now().second<10?"0${DateTime.now().second}":"${DateTime.now().second}"}",
+
+                        ));
                       }
                     },
                     child: Container(
                       height: 45,
                       width: 45,
+                      decoration: BoxDecoration(
+                          color: appcolors.primarycolor,
+                          borderRadius: BorderRadius.circular(7)),
                       child: Icon(
                         Icons.add,
                         color: Colors.white,
                       ),
-                      decoration: BoxDecoration(
-                          color: appcolors.primarycolor,
-                          borderRadius: BorderRadius.circular(7)),
                     )),
               SizedBox(
                 width: 15,

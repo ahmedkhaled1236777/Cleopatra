@@ -58,22 +58,7 @@ class Alertcontent extends StatelessWidget {
                             const SizedBox(
                               height: 15,
                             ),
-                            custommytextform(
-                              controller: machine,
-                              hintText: "رقم الماكينه",
-                              keyboardType: TextInputType.number,
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            custommytextform(
-                              controller: shift,
-                              hintText: "رقم الورديه",
-                              keyboardType: TextInputType.number,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
+
                             custommaterialbutton(
                                 button_name: "بحث",
                                 onPressed: () async {

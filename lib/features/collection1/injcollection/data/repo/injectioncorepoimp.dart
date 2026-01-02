@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:cleopatra/core/common/errors/failure.dart';
 import 'package:cleopatra/core/common/errors/handlingerror.dart';
-import 'package:cleopatra/features/collection1/injcollection/data/model/followordermodel.dart';
 import 'package:cleopatra/features/collection1/injcollection/data/model/incollectionmodel.dart';
 import 'package:cleopatra/features/collection1/injcollection/data/model/workercomodel.dart';
 import 'package:cleopatra/features/collection1/injcollection/data/model/workermodel.dart';

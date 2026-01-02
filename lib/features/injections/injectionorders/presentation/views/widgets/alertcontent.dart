@@ -12,7 +12,6 @@ import 'package:cleopatra/features/injections/injectionorders/presentation/viewm
 
 class Alertinjectioncontent extends StatelessWidget {
   TextEditingController ordernumber = TextEditingController();
-  TextEditingController prodname = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +43,7 @@ class Alertinjectioncontent extends StatelessWidget {
                             const SizedBox(
                               height: 15,
                             ),
-                            custommytextform(
-                              controller: prodname,
-                              hintText: "اسم المنتج",
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
+                           
                             custommytextform(
                               controller: ordernumber,
                               hintText: "رقم الاوردر",
@@ -78,9 +71,7 @@ class Alertinjectioncontent extends StatelessWidget {
                                           context: context);
                                     BlocProvider.of<injectionhallcuibt>(context)
                                         .shearchfororder(
-                                      prodname: prodname.text.isEmpty
-                                          ? null
-                                          : prodname.text,
+                                      prodname: null,
                                       ordernumber: ordernumber.text.isEmpty
                                           ? null
                                           : ordernumber.text,

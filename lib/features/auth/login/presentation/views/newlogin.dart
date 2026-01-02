@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cleopatra/core/colors/colors.dart';
@@ -9,11 +8,8 @@ import 'package:cleopatra/core/common/toast/toast.dart';
 import 'package:cleopatra/core/common/widgets/custommaterialbutton.dart';
 import 'package:cleopatra/core/common/widgets/dialogerror.dart';
 import 'package:cleopatra/core/common/widgets/errorwidget.dart';
-import 'package:cleopatra/features/auth/login/presentation/views/newresetpassword.dart';
-import 'package:cleopatra/features/auth/login/presentation/views/widgets/mypath.dart';
 import 'package:cleopatra/features/auth/login/presentation/views/widgets/newsignup.dart';
 import 'package:cleopatra/features/auth/login/presentation/viwmodel/auth/auth_cubit.dart';
-import 'package:cleopatra/features/home/presentation/view/home1.dart';
 import 'package:cleopatra/features/home/presentation/view/widgets/home.dart';
 
 class newlogin extends StatefulWidget {
@@ -41,15 +37,12 @@ class _newloginState extends State<newlogin> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           
-            backgroundColor: appcolors.dropcolor,
+            backgroundColor:Colors.black,
             body:Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.fill,
-            image: AssetImage("assets/images/download.png"),
-          ),
+         
         ),
         child: Center(
               child: Container(
@@ -69,7 +62,10 @@ class _newloginState extends State<newlogin> {
                         child: Form(
                             key: formkey,
                             child: Column(children: [
+                              SizedBox(height: 60,),
                               Container(
+                                  width: double.infinity,
+                                  height: MediaQuery.of(context).size.height * 0.35,
                                   child: Padding(
                                       padding: EdgeInsets.only(
                                           bottom:
@@ -79,9 +75,7 @@ class _newloginState extends State<newlogin> {
                                           "assets/images/cleopatrahome.png",
                                         ),
                                         fit: BoxFit.fill,
-                                      )),
-                                  width: double.infinity,
-                                  height: MediaQuery.of(context).size.height * 0.35),
+                                      ))),
                               Expanded(
                                   child: SingleChildScrollView(
                                       child: Padding(
@@ -89,7 +83,7 @@ class _newloginState extends State<newlogin> {
                                           child: Column(children: [
                                             TextFormField(
                                               validator: (value) {
-                                                if (value!.isEmpty || value == null)
+                                                if (value!.isEmpty )
                                                   return "من فضلك ادخال البريد الالكتروني";
                                               },
                                               controller: email,
@@ -128,7 +122,7 @@ class _newloginState extends State<newlogin> {
                                             ),
                                             TextFormField(
                                               validator: (value) {
-                                                if (value!.isEmpty || value == null) {
+                                                if (value!.isEmpty ) {
                                                   elevation = 0;
                                                   setState(() {});
                                                   return "من فضلك ادخل كلمة المرور";

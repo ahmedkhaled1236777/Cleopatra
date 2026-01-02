@@ -27,17 +27,23 @@ class _homeState extends State<home1> {
   int index = 1;
   SEARCHBLOCK() {
     
-    FirebaseFirestore.instance.collection("users").snapshots().listen((e) {
-      e.docs.forEach((datat) {
-        if (datat.data()["block"] == true &&
-            datat.data()["email"] == cashhelper.getdata(key: "email")) {
-          cashhelper.cleardata();
+    FirebaseFirestore.instance
+        .collection("users")
+        .where("email", isEqualTo: cashhelper.getdata(key: "email"))
+        .snapshots()
+        .listen((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        final userData = querySnapshot.docs.first.data();
+        if (userData["block"] == true) {
+       cashhelper.cleardata();
           Get.offAll(newlogin(),
               transition: Transition.rightToLeft,
               duration: Duration(seconds: 1),
-              curve: Curves.easeInOut);
-        }
-      });
+              curve: Curves.easeInOut);        }
+      }
+    }, onError: (error) {
+      // Handle error if needed
+      debugPrint("Error listening to user block status: $error");
     });
   }
 

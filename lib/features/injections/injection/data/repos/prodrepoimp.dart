@@ -1,3 +1,4 @@
+import 'package:cleopatra/core/common/notification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:cleopatra/core/common/errors/failure.dart';
@@ -28,6 +29,15 @@ class productionrepoimplementation extends productionrepo {
   @override
   Future<Either<failure, String>> addproduction(
       {required productionmodel productionmodel}) async {
+        try{
+   var exis = await FirebaseFirestore.instance
+                                        .collection("injectionshall")
+                                        .doc("${productionmodel.ordernuber}")
+                                        .get();
+        if(double.parse(exis.data()!["quantity"])<(double.parse(productionmodel.realprodcountity)+double.parse(exis.data()!["producedquantity"])))   {
+          return left(requestfailure(error_message: "كمية الاوردر المتبقيه ${double.parse(exis.data()!["quantity"])-double.parse(exis.data()!["producedquantity"])}"));
+        }                           
+        
     final transaction = FirebaseFirestore.instance.batch();
     final firstref = FirebaseFirestore.instance
         .collection("productions")
@@ -61,10 +71,26 @@ class productionrepoimplementation extends productionrepo {
           .doc("${productionmodel.prodname}");
           transaction
           .update(thirdref,{"numberofuses": FieldValue.increment(int.parse(productionmodel.counterend))});
-      
+       final fourref= FirebaseFirestore.instance
+        .collection("injectionshall")
+        .doc(productionmodel.ordernuber);
 
+if(double.parse(exis.data()!["quantity"])==(double.parse(productionmodel.realprodcountity)+double.parse(exis.data()!["producedquantity"])))
+    {
+   transaction.update(fourref, {
+      "status": true,
+            "producedquantity": "${double.parse(exis.data()!["producedquantity"])+double.parse(productionmodel.realprodcountity)}"
+
+    });   
+     sendnotification(
+                                  data:
+                                      "تم انتهاء اوردر رقم ${productionmodel.ordernuber} بكميه ${(double.parse(exis.data()!["producedquantity"])+double.parse(productionmodel.realprodcountity))}f");
+    }else{
+       transaction.update(fourref, {
+      "producedquantity": "${double.parse(exis.data()!["producedquantity"])+double.parse(productionmodel.realprodcountity)}"
+    });
+    }
     
-    try {
       await transaction.commit();
       return right("تم تسجيل بيانات التقرير بنجاح");
       // ignore: empty_catches
@@ -101,6 +127,13 @@ class productionrepoimplementation extends productionrepo {
 Future<Either<failure, String>> deleteproduction(
     {required productionmodel prduction}) async {
   try {
+     var exis = await FirebaseFirestore.instance
+                                        .collection("injectionshall")
+                                        .doc("${prduction.ordernuber}")
+                                        .get();
+        if(exis.data()!["status"]==true)   {
+          return left(requestfailure(error_message: "الاوردر منتهي لايجوز الحذف"));
+        }      
     final batch = FirebaseFirestore.instance.batch();
 
     // 1. First Deletion
@@ -129,7 +162,12 @@ Future<Either<failure, String>> deleteproduction(
     batch.update(thirdref, {
       "numberofuses": FieldValue.increment(-int.parse(prduction.counterend))
     });
-
+    final fourref= FirebaseFirestore.instance
+        .collection("injectionshall")
+        .doc(prduction.ordernuber);
+ batch.update(fourref, {
+      "producedquantity": "${double.parse(exis.data()!["producedquantity"])-double.parse(prduction.realprodcountity)}"
+    });
     await batch.commit(); // Execute all operations
 
     return right("تم حذف تقرير الماكينه بنجاح");
@@ -297,3 +335,4 @@ Future<Either<failure, String>> deleteproduction(
     }
   }
 }
+

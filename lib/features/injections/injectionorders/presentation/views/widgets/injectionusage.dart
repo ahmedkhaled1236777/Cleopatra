@@ -41,6 +41,12 @@ class _injectionState extends State<injectionusage> {
   ];
 
   getdata() async {
+     if (BlocProvider.of<productioncuibt>(context).timers.isEmpty) {
+      await BlocProvider.of<productioncuibt>(context).gettimers();
+    }
+    if (BlocProvider.of<productioncuibt>(context).diagnoses.isEmpty) {
+      await BlocProvider.of<productioncuibt>(context).getdiagnoses();
+    }
     await BlocProvider.of<injectionusagecuibt>(context)
         .getinjection(docid: widget.injection.ordernumber);
   }
@@ -64,7 +70,7 @@ class _injectionState extends State<injectionusage> {
                     onPressed: () {
                       if (BlocProvider.of<productioncuibt>(context).timerrate[
                               "${widget.injection.name}-${widget.injection.materialtype}"] !=
-                          null)
+                          null) {
                         showDialog(
                             barrierDismissible: false,
                             context: context,
@@ -95,6 +101,7 @@ class _injectionState extends State<injectionusage> {
                                 ),
                               );
                             });
+                      }
                     },
                     icon: Icon(
                       Icons.menu,
@@ -137,12 +144,13 @@ class _injectionState extends State<injectionusage> {
                 },
                 child: BlocConsumer<injectionusagecuibt, injectionusagetates>(
                     listener: (context, state) {
-                  if (state is getinjectionusagetatefailure)
+                  if (state is getinjectionusagetatefailure) {
                     showtoast(
                                                                                                         context: context,
 
                         message: state.error_message,
                         toaststate: Toaststate.error);
+                  }
                 }, builder: (context, state) {
                   if (state is getinjectionusagetateloading)
                     return loadingshimmer();
@@ -248,7 +256,7 @@ class _injectionState extends State<injectionusage> {
                                                         error:
                                                             "لقد انتهي الاوردر غير قادر علي الحذف",
                                                         context: context);
-                                                  else
+                                                  else {
                                                     awsomdialogerror(
                                                         context: context,
                                                         mywidget: BlocConsumer<
@@ -324,6 +332,7 @@ class _injectionState extends State<injectionusage> {
                                                         ),
                                                         tittle:
                                                             "هل تريد حذف التقرير ");
+                                                  }
                                                 },
                                                 icon: Icon(
                                                   deleteicon,
@@ -368,8 +377,6 @@ class _injectionState extends State<injectionusage> {
                                     .total
                                     .toString(),
                             ordername: widget.injection.name,
-                            timefrom: widget.injection.timestart,
-                            timeto: widget.injection.timeend,
                             resetquantity:
                                 "${int.parse(widget.injection.quantity) - BlocProvider.of<injectionusagecuibt>(context).total}",
                             context: context,

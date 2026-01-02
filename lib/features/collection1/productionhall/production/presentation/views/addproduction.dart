@@ -15,6 +15,9 @@ import 'package:cleopatra/features/collection1/productionhall/production/present
 import 'package:cleopatra/features/collection1/productionhall/production/presentation/viewmodel/prodstates.dart';
 
 class addhallreport extends StatefulWidget {
+  final String ordernumber;
+
+  const addhallreport({super.key, required this.ordernumber});
   @override
   State<addhallreport> createState() => _addreportState();
 }
@@ -22,7 +25,6 @@ class addhallreport extends StatefulWidget {
 class _addreportState extends State<addhallreport> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
-  TextEditingController ordernumber = TextEditingController();
   TextEditingController color = TextEditingController();
   TextEditingController code = TextEditingController();
 
@@ -207,7 +209,7 @@ class _addreportState extends State<addhallreport> {
                       ),
                       custommytextform(
                         keyboardType: TextInputType.number,
-                        controller: ordernumber,
+                        controller: TextEditingController(text: widget.ordernumber),
                         hintText: "رقم الاوردر",
                         val: "برجاء ادخال رقم الاوردر",
                       ),
@@ -237,7 +239,6 @@ class _addreportState extends State<addhallreport> {
                       BlocConsumer<productionhallcuibt, productionhalltates>(
                         listener: (context, state) async {
                           if (state is productionhalltatesuccess) {
-                            ordernumber.clear();
                             quantity.clear();
                             color.clear();
                             code.clear();
@@ -275,13 +276,7 @@ class _addreportState extends State<addhallreport> {
                                   showdialogerror(
                                       error: "يجب اختيار المنتج",
                                       context: context);
-                                } else if (BlocProvider.of<productionhallcuibt>(
-                                        context)
-                                    .orders
-                                    .contains(ordernumber.text))
-                                  showdialogerror(
-                                      error: "هذا الاوردر مسجل لدينا من قبل",
-                                      context: context);
+                                } 
                                 else {
                                   if (formkey.currentState!.validate()) {
                                     BlocProvider.of<productionhallcuibt>(
@@ -295,7 +290,7 @@ class _addreportState extends State<addhallreport> {
                                                             DateCubit>(context)
                                                         .producthalldate,
                                                     ordernumber:
-                                                        ordernumber.text,
+                                                       widget. ordernumber,
                                                     name: BlocProvider.of<
                                                                 componentCubit>(
                                                             context)

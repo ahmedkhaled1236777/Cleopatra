@@ -13,17 +13,7 @@ class injectionhallrepoimplementation extends injectionhallrepo {
       {required injectionhallmodel injectionmodel}) async {
     try {
       
-                                      var exis = await FirebaseFirestore.instance
-                                        .collection("injectionshall")
-                                        .doc("${injectionmodel.ordernumber}")
-                                        .get();
-                                    if (exis.exists) {
-                                            return left(requestfailure(error_message: "هذا الاوردر مسجل لدينا من قبل"));
-
-                                      
-                                    }
                             
-                             else{
    var exisit = await FirebaseFirestore.instance
                                         .collection("injectionshall")
                                         .where("status",isEqualTo: false).where("machine",isEqualTo: injectionmodel.machine)
@@ -37,7 +27,7 @@ class injectionhallrepoimplementation extends injectionhallrepo {
       await FirebaseFirestore.instance
           .collection("injectionshall")
           .doc("${injectionmodel.ordernumber}")
-          .set(injectionmodel.tojson());}
+          .set(injectionmodel.tojson());
       return right("تم تسجيل بيانات الاوردر بنجاح");
       // ignore: empty_catches
     } catch (e) {
@@ -86,22 +76,10 @@ class injectionhallrepoimplementation extends injectionhallrepo {
   Future<Either<failure, String>> deleteinjection(
       {required injectionhallmodel prduction}) async {
     try {
-      await FirebaseFirestore.instance.runTransaction((transaction) async {
-        await FirebaseFirestore.instance
+      if(prduction.producedquantity!="0")return left(requestfailure(error_message: "تم انتاج كميه من الاوردر لا يجوز المسح"));
+     await FirebaseFirestore.instance
             .collection("injectionshall")
-            .doc(prduction.ordernumber)
-            .collection(prduction.ordernumber)
-            .get()
-            .then((value) {
-          value.docs.forEach((e) {
-            transaction.delete(e.reference);
-          });
-        });
-        final ref = await FirebaseFirestore.instance
-            .collection("injectionshall")
-            .doc(prduction.ordernumber);
-        transaction.delete(ref);
-      });
+            .doc(prduction.ordernumber).delete();
 
       return right("تم حذف الاوردر بنجاح");
       // ignore: empty_catches

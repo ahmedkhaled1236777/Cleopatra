@@ -10,15 +10,15 @@ class injectionhallmodel {
   final String masterper;
   final String color;
   final String quantity;
+  final String producedquantity;
   final String ordernumber;
   final String notes;
-  final String timestart;
-  final String timeend;
   final bool status;
   final bool sprue;
   bool? update;
   injectionhallmodel({
     required this.date,
+    required this.producedquantity,
     required this.status,
     required this.sprue,
     required this.notes,
@@ -26,8 +26,6 @@ class injectionhallmodel {
     required this.breakper,
     required this.masterper,
     required this.materialtype,
-    required this.timestart,
-    required this.timeend,
     required this.machine,
     required this.color,
     this.update = true,
@@ -48,9 +46,8 @@ class injectionhallmodel {
         "sprue": sprue,
         "machine": machine,
         "ordernumber": ordernumber,
+        "producedquantity": producedquantity,
         "status": status,
-        "timestart": timestart,
-        "timeend": timeend,
         "color": color,
         if (update!) "timestamp": FieldValue.serverTimestamp()
       };
@@ -58,14 +55,13 @@ class injectionhallmodel {
     return injectionhallmodel(
         date: data["date"],
         notes: data["notes"],
+        producedquantity: data["producedquantity"],
         machine: data["machine"],
         status: data["status"],
         pureper: data["pureper"] ?? "لا يوجد",
         masterper: data["masterper"] ?? "لا يوجد",
         breakper: data["breakper"] ?? "لا يوجد",
         materialtype: data["materialtype"] ?? "لا يوجد",
-        timeend: data["timeend"] ?? "لا يوجد",
-        timestart: data["timestart"] ?? "لا يوجد",
         ordernumber: data["ordernumber"],
         sprue: data["sprue"]??true,
         color: data["color"],

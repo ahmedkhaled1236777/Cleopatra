@@ -5,7 +5,6 @@ import 'package:cleopatra/core/colors/colors.dart';
 import 'package:cleopatra/core/common/navigation.dart';
 import 'package:cleopatra/core/common/sharedpref/cashhelper.dart';
 import 'package:cleopatra/features/auth/login/presentation/views/newlogin.dart';
-import 'package:cleopatra/features/home/presentation/view/home1.dart';
 import 'package:cleopatra/features/home/presentation/view/widgets/home.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
@@ -67,7 +66,7 @@ class _splashState extends State<splash> {
               child: SizedBox(
                   width: 296,
                   height: 282,
-                  child: Image.asset("assets/images/cleopatradark.png")),
+                  child: Image.asset("assets/images/cleopatrahome.png")),
             ),
           ),
         ));

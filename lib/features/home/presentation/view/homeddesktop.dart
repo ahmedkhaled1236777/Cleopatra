@@ -2,24 +2,18 @@
 import 'package:animated_analog_clock/animated_analog_clock.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges;
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cleopatra/core/common/navigation.dart';
 import 'package:cleopatra/core/common/sharedpref/cashhelper.dart';
 import 'package:cleopatra/features/auth/login/presentation/views/widgets/profile.dart';
 import 'package:cleopatra/features/collection1/average/presentation/view/average.dart';
 import 'package:cleopatra/features/collection1/components/presentation/view/components.dart';
 import 'package:cleopatra/features/collection1/injcollection/presentation/view/injectionco.dart';
-import 'package:cleopatra/features/collection1/productionhall/production/presentation/views/production.dart';
 import 'package:cleopatra/features/collection1/productionhall/production/presentation/views/productiontabbars.dart';
 import 'package:cleopatra/features/collection1/workers.dart/presentation/view/workers.dart';
 import 'package:cleopatra/features/home/presentation/view/widgets/gridelement.dart';
 import 'package:cleopatra/features/injections/injection/presentation/views/production.dart';
 import 'package:cleopatra/features/injections/injectionorders/presentation/views/injectionorders.dart';
-import 'package:cleopatra/features/mold/moldmaintenance/molds/data/models/maintenancemodel.dart';
 import 'package:cleopatra/features/mold/moldmaintenance/molds/presentation/views/molds.dart';
 import 'package:cleopatra/features/mold/molds/presentation/views/molds.dart';
 import 'package:cleopatra/features/mold/molduse/molds/presentation/views/molds.dart';
@@ -28,16 +22,16 @@ import 'package:cleopatra/features/users/presentation/views/widgets/employees.da
 
 class home2 extends StatelessWidget {
     List homegrid = [
-    {"name": 'الحقن', "image": "assets/images/injectionimage.png", "page": production()},
+    {"name": 'الحقن', "image":  "assets/images/injection.png", "page": production()},
     {
       "name": 'اوردرات الحقن',
-      "image": "assets/images/health-check.png",
+      "image": "assets/images/3d-report.png",
       "page": Injectionorders()
     },
         {"name": 'الاسطمبات', "image": "assets/images/molds.png", "page": molds()},
          {
       "name": 'استهلاك الاسطمبات',
-      "image": "assets/images/tooling.png",
+      "image":  "assets/images/tooling.png",
       "page": moldusages()
     },
      {
@@ -47,8 +41,8 @@ class home2 extends StatelessWidget {
     },
 
     {
-      "name": 'صالة اللقمه',
-      "image": "assets/images/ss.jpeg",
+      "name": 'صالة التجميع',
+      "image": "assets/images/collection.png",
       "page": injectionco()
     },
     {
@@ -58,7 +52,7 @@ class home2 extends StatelessWidget {
     },
      {
       "name": 'المنتجات ومكونات اللقمه',
-      "image": "assets/images/licensed-image.jfif",
+      "image": "assets/images/cleopatra3.png",
       "page": components()
     },
     {
@@ -164,7 +158,7 @@ class home2 extends StatelessWidget {
                             size: 60,
                             dialType: DialType.numbers,
                             backgroundImage: AssetImage(
-                              'assets/images/mmm.jpg',
+                              'assets/images/clock.png',
                             ),
                           ),
                 ],

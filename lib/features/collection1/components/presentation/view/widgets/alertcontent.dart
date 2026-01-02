@@ -4,10 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cleopatra/core/colors/colors.dart';
 import 'package:cleopatra/core/common/widgets/custommaterialbutton.dart';
 import 'package:cleopatra/features/collection1/components/presentation/viewmodel/components/components_cubit.dart';
-import 'package:cleopatra/features/collection1/productionhall/production/presentation/viewmodel/prodcuibt.dart';
-import 'package:cleopatra/features/collection1/productionhall/production/presentation/viewmodel/prodstates.dart';
-import 'package:cleopatra/features/collection1/productionhallusage/productionhall/production/presentation/viewmodel/prodcuibt.dart';
-import 'package:cleopatra/features/collection1/productionhallusage/productionhall/production/presentation/viewmodel/prodstates.dart';
 
 class Alertcomponenycontent extends StatelessWidget {
   @override

@@ -37,13 +37,9 @@ class _addreportState extends State<addreport> {
 
   TextEditingController realprodcountity = TextEditingController();
 
-  TextEditingController expectedprod = TextEditingController();
 
-  TextEditingController scrapcountity = TextEditingController();
 
-  TextEditingController proddivision = TextEditingController();
 
-  TextEditingController machinestop = TextEditingController();
   TextEditingController shift = TextEditingController();
 
   TextEditingController notes = TextEditingController(text: "لا يوجد");
@@ -247,73 +243,7 @@ class _addreportState extends State<addreport> {
                             height: 10,
                           ),
                           custommytextform(
-                              onChanged: (val) {
-                                if (val.isEmpty) {
-                                  expectedprod.clear();
-                                  scrapcountity.clear();
-                                  proddivision.clear();
-                                  machinestop.clear();
-                                } else {
-                                  expectedprod
-                                      .text = ((double.parse(workhours.text) *
-                                              60 *
-                                              60 *
-                                              double.parse(BlocProvider.of<
-                                                              productioncuibt>(
-                                                          context)
-                                                      .timerrate["${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
-                                                  ["numberofpieces"])) /
-                                          BlocProvider.of<productioncuibt>(
-                                                          context)
-                                                      .timerrate[
-                                                  "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
-                                              ["cycletime"])
-                                      .round()
-                                      .toString();
-                                  scrapcountity.text = (((double.parse(
-                                                      counterend.text) -
-                                                  double.parse(
-                                                      counterstart.text)) *
-                                              double.parse(BlocProvider.of<
-                                                                  productioncuibt>(
-                                                              context)
-                                                          .timerrate[
-                                                      "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
-                                                  ["numberofpieces"])) -
-                                          double.parse(val))
-                                      .round()
-                                      .toString();
-                                  proddivision.text = (double.parse(
-                                              expectedprod.text) -
-                                          ((double.parse(counterend.text) -
-                                                  double.parse(
-                                                      counterstart.text)) *
-                                              double.parse(BlocProvider.of<
-                                                                  productioncuibt>(
-                                                              context)
-                                                          .timerrate[
-                                                      "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
-                                                  ["numberofpieces"])))
-                                      .round()
-                                      .toString();
-                                  machinestop.text = ((double.parse(
-                                                  proddivision.text) *
-                                              BlocProvider.of<productioncuibt>(context)
-                                                          .timerrate[
-                                                      "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
-                                                  ["cycletime"]) /
-                                          (60 *
-                                              double.parse(
-                                                  BlocProvider.of<productioncuibt>(
-                                                                  context)
-                                                              .timerrate[
-                                                          "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
-                                                      ["numberofpieces"])))
-                                      .round()
-                                      .toString();
-                                }
-                                setState(() {});
-                              },
+                          
                               controller: realprodcountity,
                               hintText: "كمية الانتاج الفعلي",
                               val: "برجاء كمية الانتاج الفعلي",
@@ -343,27 +273,15 @@ class _addreportState extends State<addreport> {
                           BlocConsumer<productioncuibt, productiontates>(
                             listener: (context, state) async {
                               if (state is productiontatesuccess) {
-                                await moldusagerepoimp().editmoldusage(
-                                    moldmodel: moldusagemodel(
-                                        numberofuses:
-                                            (int.parse(counterend.text))
-                                                .round(),
-                                        moldname:
-                                            BlocProvider.of<MoldsCubit>(
-                                                    context)
-                                                .moldname));
+                               
                                 workername.clear();
                                 workhours.clear();
-                                proddivision.clear();
                                 BlocProvider.of<injectionhallcuibt>(context)
                                     .resetordernumber();
-                                expectedprod.clear();
                                 counterend.clear();
                                 counterstart.clear();
-                                scrapcountity.clear();
                                 shift.clear();
                                 realprodcountity.clear();
-                                machinestop.clear();
                                 BlocProvider.of<DateCubit>(context)
                                     .cleardates();
                                 BlocProvider.of<productioncuibt>(context)
@@ -375,12 +293,13 @@ class _addreportState extends State<addreport> {
                                     message: state.success_message,
                                     toaststate: Toaststate.succes);
                               }
-                              if (state is productiontatefailure)
+                              if (state is productiontatefailure) {
                                 showtoast(
                                                                                                                     context: context,
                     
                                     message: state.error_message,
                                     toaststate: Toaststate.error);
+                              }
                             },
                             builder: (context, state) {
                               if (state is productiontateloading)
@@ -388,6 +307,7 @@ class _addreportState extends State<addreport> {
                               return custommaterialbutton(
                                   button_name: "تسجيل التقرير",
                                   onPressed: () async {
+                                 
                                     if (BlocProvider.of<injectionhallcuibt>(
                                                 context)
                                             .ordername ==
@@ -397,7 +317,7 @@ class _addreportState extends State<addreport> {
                                           context: context);
                                     } else if (formkey.currentState!
                                         .validate()) {
-                                      if (int.parse(shift.text) > 2 ||
+                                      if (int.parse(shift.text) > 3 ||
                                           int.parse(shift.text) < 1) {
                                         showdialogerror(
                                             error: "رقم الورديه غير صحيح",
@@ -411,7 +331,16 @@ class _addreportState extends State<addreport> {
                                             error:
                                                 "برجاء اختيار رقم الاوردر",
                                             context: context);
-                                      } else if (int.parse(realprodcountity.text) >
+                                      }
+                                      
+                                      else if((BlocProvider.of<productioncuibt>(context).timerrate["${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                                        ["cycletime"])==null){
+                                           showdialogerror(
+                                            error:
+                                                "يجب تسجيل بيانات الاسطمبه بالخامه",
+                                            context: context);
+                                      }
+                                       else if (int.parse(realprodcountity.text) >
                                           ((int.parse(counterend.text) -
                                                   int.parse(
                                                       counterstart.text)) *
@@ -424,7 +353,9 @@ class _addreportState extends State<addreport> {
                                             error:
                                                 "كمية الانتاج الفعلي غير صحيحه",
                                             context: context);
-                                      } else {
+                                      } 
+                                      
+                                      else {
                                         BlocProvider.of<productioncuibt>(context).addproduction(
                                             productionmodel: productionmodel(
                                                 diagnoses: BlocProvider.of<productioncuibt>(context)
@@ -457,10 +388,102 @@ class _addreportState extends State<addreport> {
                                                 counterend: counterend.text,
                                                 ordernuber: BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["ordernumber"].toString(),
                                                 realprodcountity: realprodcountity.text,
-                                                expectedprod: expectedprod.text,
-                                                scrapcountity: scrapcountity.text,
-                                                proddivision: proddivision.text,
-                                                machinestop: machinestop.text,
+                                                expectedprod: ((double.parse(workhours.text) *
+                                              60 *
+                                              60 *
+                                              double.parse(BlocProvider.of<
+                                                              productioncuibt>(
+                                                          context)
+                                                      .timerrate["${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                                  ["numberofpieces"])) /
+                                          BlocProvider.of<productioncuibt>(
+                                                          context)
+                                                      .timerrate[
+                                                  "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                              ["cycletime"])
+                                      .round()
+                                      .toString(),
+                                                scrapcountity: (((double.parse(
+                                                      counterend.text) -
+                                                  double.parse(
+                                                      counterstart.text)) *
+                                              double.parse(BlocProvider.of<
+                                                                  productioncuibt>(
+                                                              context)
+                                                          .timerrate[
+                                                      "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                                  ["numberofpieces"])) -
+                                          double.parse(realprodcountity.text))
+                                      .round()
+                                      .toString(),
+                                                proddivision: (double.parse(
+                                      ((double.parse(workhours.text) *
+                                              60 *
+                                              60 *
+                                              double.parse(BlocProvider.of<
+                                                              productioncuibt>(
+                                                          context)
+                                                      .timerrate["${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                                  ["numberofpieces"])) /
+                                          BlocProvider.of<productioncuibt>(
+                                                          context)
+                                                      .timerrate[
+                                                  "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                              ["cycletime"])
+                                      .round()
+                                      .toString()) -
+                                          ((double.parse(counterend.text) -
+                                                  double.parse(
+                                                      counterstart.text)) *
+                                              double.parse(BlocProvider.of<
+                                                                  productioncuibt>(
+                                                              context)
+                                                          .timerrate[
+                                                      "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                                  ["numberofpieces"])))
+                                      .round()
+                                      .toString(),
+                                                machinestop: ((double.parse(
+                                                   (double.parse(
+                                      ((double.parse(workhours.text) *
+                                              60 *
+                                              60 *
+                                              double.parse(BlocProvider.of<
+                                                              productioncuibt>(
+                                                          context)
+                                                      .timerrate["${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                                  ["numberofpieces"])) /
+                                          BlocProvider.of<productioncuibt>(
+                                                          context)
+                                                      .timerrate[
+                                                  "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                              ["cycletime"])
+                                      .round()
+                                      .toString()) -
+                                          ((double.parse(counterend.text) -
+                                                  double.parse(
+                                                      counterstart.text)) *
+                                              double.parse(BlocProvider.of<
+                                                                  productioncuibt>(
+                                                              context)
+                                                          .timerrate[
+                                                      "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                                  ["numberofpieces"])))
+                                      .round()
+                                      .toString()) *
+                                              BlocProvider.of<productioncuibt>(context)
+                                                          .timerrate[
+                                                      "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                                  ["cycletime"]) /
+                                          (60 *
+                                              double.parse(
+                                                  BlocProvider.of<productioncuibt>(
+                                                                  context)
+                                                              .timerrate[
+                                                          "${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["mold"]}-${BlocProvider.of<injectionhallcuibt>(context).ordermap[BlocProvider.of<injectionhallcuibt>(context).ordername]["material"]}"]
+                                                      ["numberofpieces"])))
+                                      .round()
+                                      .toString(),
                                                 notes: notes.text));
                                       }
                                     }

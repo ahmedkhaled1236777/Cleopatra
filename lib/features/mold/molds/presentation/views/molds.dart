@@ -113,7 +113,7 @@ class _moldsState extends State<molds> {
               backgroundColor: appcolors.maincolor,
               centerTitle: true,
               title: const Text(
-                "الاسطمبات",
+                "تركيب وتنزيل الاسطمبات",
                 style: TextStyle(
                     color: Colors.white,
                     fontFamily: "cairo",
@@ -138,12 +138,13 @@ class _moldsState extends State<molds> {
                 onRefresh: () async {},
                 child: BlocConsumer<MoldsCubit, MoldsState>(
                     listener: (context, state) {
-                  if (state is getmoldfailure)
+                  if (state is getmoldfailure) {
                     showtoast(
                                                                                                         context: context,
 
                         message: state.error_message,
                         toaststate: Toaststate.error);
+                  }
                 }, builder: (context, state) {
                   if (state is getmoldloading) return loadingshimmer();
                   if (state is getmoldfailure)
@@ -199,11 +200,11 @@ class _moldsState extends State<molds> {
                                     delet: IconButton(
                                         onPressed: () {
                                           if (!permession
-                                              .contains('حذف اسطمبات'))
+                                              .contains('حذف اسطمبات')) {
                                             showdialogerror(
                                                 error: "ليس لديك الصلاحيه",
                                                 context: context);
-                                          else
+                                          } else {
                                             awsomdialogerror(
                                                 context: context,
                                                 mywidget: BlocConsumer<
@@ -272,6 +273,7 @@ class _moldsState extends State<molds> {
                                                 ),
                                                 tittle:
                                                     "هل تريد حذف تقرير اسطمبة ${BlocProvider.of<MoldsCubit>(context).mymolds[i].moldname}");
+                                          }
                                         },
                                         icon: Icon(
                                           deleteicon,

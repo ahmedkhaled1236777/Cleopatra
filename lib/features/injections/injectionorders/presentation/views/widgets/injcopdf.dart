@@ -21,8 +21,6 @@ class Injorderpdf {
     required String prodname,
     required String resetquantity,
     required String time,
-    required String timefrom,
-    required String timeto,
     required Uint8List imageBytes,
     required List<injectionusagemodel> categories,
   }) async {
@@ -58,7 +56,7 @@ class Injorderpdf {
         ),
         pw.SizedBox(height: 10),
         buildbasic("${categories[0].ordernumber}", "${orderquantity}", prodname,
-            color, timefrom, timeto),
+            color),
         pw.SizedBox(height: 10),
         pw.Table.fromTextArray(
             headerDecoration: pw.BoxDecoration(color: PdfColors.blue900),
@@ -319,7 +317,7 @@ item.worker
   }*/
 
   static buildbasic(String ordernumber, String quantity, String prodname,
-      String color, String timefrom, String timeto) {
+      String color) {
     return pw
         .Column(crossAxisAlignment: pw.CrossAxisAlignment.start, children: [
       pw.Text("اسم المنتج : ${prodname} ${color}",
@@ -331,11 +329,7 @@ item.worker
       pw.Text("الكميه المطلوبه : ${quantity}",
           style: pw.TextStyle(fontSize: 17)),
       pw.SizedBox(height: 7),
-      pw.Text("وقت بداية الاوردر : ${timefrom}",
-          style: pw.TextStyle(fontSize: 17)),
-      pw.SizedBox(height: 7),
-      pw.Text("وقت نهاية الاوردر : ${timeto}",
-          style: pw.TextStyle(fontSize: 17))
+      
     ]); /*
    
     return pw.Column(

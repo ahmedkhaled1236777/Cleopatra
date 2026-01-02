@@ -1,13 +1,11 @@
 import 'dart:io';
 
 import 'package:cleopatra/features/collection1/productionhall/production/data/repos/prodrepoimp.dart';
-import 'package:cleopatra/features/injections/injectionmachines/data/repos/injectionmachinerepoimp.dart';
-import 'package:cleopatra/features/injections/injectionmachines/presentation/viewmodel/cubit/injectionmachines_cubit.dart';
-import 'package:cleopatra/features/injections/injectionworkers/data/repos/injectionworkerrepoimp.dart';
-import 'package:cleopatra/features/injections/injectionworkers/presentation/viewmodel/cubit/injectionworkers_cubit.dart';
+
 import 'package:cleopatra/features/qc/data/repos/repos/qcrepoimp.dart';
 import 'package:cleopatra/features/qc/presentation/viewmodel/viewmodel/cubit/qc_cubit.dart';
 import 'package:cleopatra/features/splash/splash%20copy.dart';
+import 'package:cleopatra/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,8 +26,6 @@ import 'package:cleopatra/features/collection1/injcollection/data/repo/injection
 import 'package:cleopatra/features/collection1/injcollection/presentation/viewmodel/cubit/injextionco_dart_cubit.dart';
 
 import 'package:cleopatra/features/home/presentation/viewmodel/cubit/home_cubit.dart';
-import 'package:cleopatra/features/hr/data/repo/hrrepoimp.dart';
-import 'package:cleopatra/features/hr/presentation/viewmodel/hr/hr_cubit.dart';
 import 'package:cleopatra/features/injections/injectionorders/data/repos/prodrepoimp.dart';
 import 'package:cleopatra/features/injections/injectionorders/presentation/viewmodel/prodcuibt.dart';
 import 'package:cleopatra/features/injections/injectionorders/presentation/viewmodel/produsage.dart';
@@ -39,13 +35,7 @@ import 'package:cleopatra/features/mold/molds/data/repos/moldrepoimp.dart';
 import 'package:cleopatra/features/mold/molds/presentation/viewmodel/molds/molds_cubit.dart';
 import 'package:cleopatra/features/mold/molduse/molds/data/repos/moldrepoimp.dart';
 import 'package:cleopatra/features/mold/molduse/molds/presentation/viewmodel/moldsusage/moldsusage_cubit.dart';
-import 'package:cleopatra/features/paints/paint/data/repos/paintreportrepoimp.dart';
-import 'package:cleopatra/features/paints/paint/presentation/viewmodel/paintreportcuibt.dart';
-import 'package:cleopatra/features/paints/paintaverage/data/repo/paintaveragerepoimp.dart';
-import 'package:cleopatra/features/paints/paintaverage/presentation/viewmodel/cubit/paintaverage_cubit.dart';
-import 'package:cleopatra/features/paints/paintorders/data/repos/paintrepoimp.dart';
-import 'package:cleopatra/features/paints/paintorders/presentation/viewmodel/paintcuibt.dart';
-import 'package:cleopatra/features/paints/paintorders/presentation/viewmodel/paintusagecuibt.dart';
+
 import 'package:cleopatra/features/injections/injection/data/repos/prodrepoimp.dart';
 import 'package:cleopatra/features/injections/injection/presentation/viewmodel/prodcuibt.dart';
 import 'package:cleopatra/features/collection1/productionhall/production/presentation/viewmodel/prodcuibt.dart';
@@ -56,19 +46,13 @@ import 'package:cleopatra/features/users/presentation/viewmodel/addemployee/adde
 import 'package:cleopatra/features/users/presentation/viewmodel/showemployeecuibt/employeecuibt.dart';
 import 'package:cleopatra/features/collection1/workers.dart/data/repos/workersrepoimp.dart';
 import 'package:cleopatra/features/collection1/workers.dart/presentation/viewmodel/worker/worker_cubit.dart';
-import 'package:cleopatra/features/workers/data/repos/workerrepoimp.dart';
-import 'package:cleopatra/features/workers/presentation/viewmodel/cubit/workers_cubit.dart';
 Future<void> main() async {
    WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
  await cashhelper.initcashhelper();
+await initializeFirebase();
 
- // await Firebase.initializeApp(
- //   options: DefaultFirebaseOptions.currentPlatform,
-  //);
- OneSignal.initialize("5bcd661f-dc56-4fb9-865a-94b700e59400");
-  OneSignal.Notifications.requestPermission(true);
   runApp(const MainApp());
 }
 
@@ -89,12 +73,8 @@ class MainApp extends StatelessWidget {
             create: (context) => productioncuibt(
                 productionrepoimplementatio: productionrepoimplementation()),
           ),
-          BlocProvider(
-            create: (context) => attendanceworkersCubit(
-                workerrepoimp: attendanceWorkerrepoimp()),
-          ),
+         
           
-          BlocProvider(create: (context) => HrCubit(Hrrepoimp())),
           BlocProvider(
             create: (context) =>
                 AddemployeeCubit(addemployeerepo: emplyeerepoimplementaion()),
@@ -103,17 +83,7 @@ class MainApp extends StatelessWidget {
             create: (context) =>
                 showemployeescuibt(employeerepo: emplyeerepoimplementaion()),
           ),
-          BlocProvider(
-            create: (context) => paintreportcuibt(
-                paintreportrepoimplementatio: Paintreportrepoimp()),
-          ),
-          BlocProvider(
-            create: (context) => paintaverageCubit(paintaveragerepoimp()),
-          ),
-          BlocProvider(
-            create: (context) => paintusagecuibt(
-                paintrepoimplementatio: paintrepoimplementation()),
-          ),
+         
           BlocProvider(
             create: (context) => injectionhallcuibt(
                 injectionrepoimplementatio: injectionhallrepoimplementation()),
@@ -121,15 +91,11 @@ class MainApp extends StatelessWidget {
           BlocProvider(
             create: (context) => WorkerCubit(Workersrepoimp()),
           ),
-          BlocProvider(
-            create: (context) => InjectionmachinesCubit(Injectionmachinerepoimp()),
-          ),
+
           BlocProvider(
             create: (context) => qcsCubit(qcrepoimp()),
           ),
-          BlocProvider(
-            create: (context) => InjectionworkersCubit(Injectionworkerrepoimp()),
-          ),
+
          
           BlocProvider(
             create: (context) => injectionusagecuibt(
@@ -175,10 +141,7 @@ class MainApp extends StatelessWidget {
             create: (context) => InjextioncoDartCubit(Injectioncorepoimp()),
           ),
           
-          BlocProvider(
-            create: (context) =>
-                paintcuibt(paintrepo: paintrepoimplementation()),
-          ),
+          
         ],
         child: GetMaterialApp(
           locale: Locale("ar"),
@@ -203,21 +166,21 @@ class MainApp extends StatelessWidget {
 Future<void> initializeFirebase() async {
   try {
     if (Platform.isAndroid) {
-    //  await Firebase.initializeApp(
-      //  options: DefaultFirebaseOptions.android,
-      //);
-     OneSignal.initialize("5bcd661f-dc56-4fb9-865a-94b700e59400");
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.android,
+      );
+      OneSignal.initialize("5bcd661f-dc56-4fb9-865a-94b700e59400");
   OneSignal.Notifications.requestPermission(true);
     } else if (Platform.isWindows) {
-     /* await Firebase.initializeApp(
+      await Firebase.initializeApp(
         options: FirebaseOptions(
-          apiKey: "AIzaSyC7kGcAALwmqhZmSrnNJoEeXJgKeEext-I",
-          appId: "1:721741049198:android:b2006caf4575894dc3a57f",
-          messagingSenderId: "721741049198",
-          projectId: "mega-3c222",
-          storageBucket: "mega-3c222.firebasestorage.app",
+          apiKey: 'AIzaSyAds0SsUHnSQB0xH4iv0cTjlpfa7GtNx-Y',
+          appId: '1:547078489764:web:e357ac7d399847eaf8c831',
+          messagingSenderId: '547078489764',
+          projectId: 'elsenwar1-94e9a',
+          storageBucket: 'elsenwar1-94e9a.firebasestorage.app',
         ),
-      );*/
+      );
     }
   } catch (e) {
     if (e.toString().contains('duplicate-app')) {

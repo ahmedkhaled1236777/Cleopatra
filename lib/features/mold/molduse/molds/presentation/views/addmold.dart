@@ -5,7 +5,6 @@ import 'package:cleopatra/core/colors/colors.dart';
 import 'package:cleopatra/core/common/toast/toast.dart';
 import 'package:cleopatra/core/common/widgets/custommaterialbutton.dart';
 import 'package:cleopatra/core/common/widgets/customtextform.dart';
-import 'package:cleopatra/core/common/widgets/dialogerror.dart';
 import 'package:cleopatra/core/common/widgets/errorwidget.dart';
 
 import 'package:cleopatra/features/mold/molduse/molds/data/models/moldmodel.dart';
@@ -14,6 +13,11 @@ import 'package:cleopatra/features/mold/molduse/molds/presentation/viewmodel/mol
 
 class Addmoldusage extends StatelessWidget {
   TextEditingController moldname = TextEditingController();
+  TextEditingController moldusage = TextEditingController(text: "0");
+  TextEditingController karton = TextEditingController(text: "0");
+  TextEditingController bag = TextEditingController(text: "0");
+  TextEditingController can = TextEditingController(text: "0");
+  TextEditingController glutinous = TextEditingController(text: "0");
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -63,6 +67,35 @@ class Addmoldusage extends StatelessWidget {
                   controller: moldname,
                   hintText: "اسم الاسطمبه",
                   val: "برجاء ادخال اسم الاسطمبه",
+                ),SizedBox(height: 10,),
+                 custommytextform(
+                  controller: moldusage,
+                  hintText: "عدد الكبسات",
+                  val: "برجاء ادخال عدد الكبسات",
+                ),
+                SizedBox(height: 10,),
+                 custommytextform(
+                  controller: karton,
+                  hintText: "عدد الكراتين لكل قطعه",
+                  val: "برجاء ادخال عدد الكراتين لكل قطعه",
+                ),
+              SizedBox(height: 10,),
+                 custommytextform(
+                  controller: can,
+                  hintText: "عدد العلب لكل قطعه",
+                  val: "برجاء ادخال عدد العلب لكل قطعه",
+                ),
+              SizedBox(height: 10,),
+                 custommytextform(
+                  controller: bag,
+                  hintText: "عدد الاكياس لكل قطعه",
+                  val: "برجاء ادخال عدد الاكياس لكل قطعه",
+                ),
+              SizedBox(height: 10,),
+                 custommytextform(
+                  controller: glutinous,
+                  hintText: "عدد بكرات اللزق لكل قطعه",
+                  val: "برجاء ادخال عدد بكرات اللزق لكل قطعه",
                 ),
                 SizedBox(
                   height: 25,
@@ -71,6 +104,11 @@ class Addmoldusage extends StatelessWidget {
                   listener: (context, state) async {
                     if (state is addmoldusagesuccess) {
                       moldname.clear();
+                      moldusage.clear();
+                      bag.clear();
+                      can.clear();
+                      glutinous.clear();
+                      karton.clear();
                       BlocProvider.of<moldusagesCubit>(context).getmoldusages();
                       showtoast(
                                                                                                           context: context,
@@ -78,25 +116,28 @@ class Addmoldusage extends StatelessWidget {
                           message: state.success_message,
                           toaststate: Toaststate.succes);
                     }
-                    if (state is addmoldusagefailure)
+                    if (state is addmoldusagefailure) {
                       showtoast(
                                                                                                           context: context,
 
                           message: state.error_message,
                           toaststate: Toaststate.error);
+                    }
                   },
                   builder: (context, state) {
                     if (state is addmoldusageloading) return loading();
                     return custommaterialbutton(
                       button_name: "تسجيل",
                       onPressed: () {
-                        if (formkey.currentState!.validate())
+                        if (formkey.currentState!.validate()) {
                           BlocProvider.of<moldusagesCubit>(context)
                               .addmoldusage(
                                   moldusagemodel: moldusagemodel(
-                            numberofuses: 0,
-                            moldname: moldname.text,
+                            numberofuses: int.parse(moldusage.text),
+                            moldname: moldname.text, bag: double.parse(bag.text), can: double.parse(can.text), 
+                            karton: double.parse(karton.text), glutinous: double.parse(glutinous.text),
                           ));
+                        }
                       },
                     );
                   },

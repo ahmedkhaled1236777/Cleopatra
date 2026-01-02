@@ -14,11 +14,11 @@ sendnotification({required String data, Widget? page}) async {
     url,
     headers: <String, String>{
       'Content-Type': 'application/json',
-      'Authorization': 'Basic YTY1MjA0NGUtMWJjOS00NTg4LTgyNWYtZjRiNjY3MGUwMWZk',
+      'Authorization': 'Basic os_v2_app_lpgwmh64kzh3tbs2ss3qbzmuabwhakql77ouojncvoukfskxheqakdyaoaa5sze3q7b574ycjfaspz2h4hhfqjuq3tckrd66dfhrn2i',
     },
     body: jsonEncode(
       <String, dynamic>{
-        "app_id": "aecb54c7-90d3-48aa-a37f-b55fe381c10a",
+        "app_id": "5bcd661f-dc56-4fb9-865a-94b700e59400",
         "included_segments": ["All"],
         "data": {"foo": "bar"},
         "contents": {"en": data},

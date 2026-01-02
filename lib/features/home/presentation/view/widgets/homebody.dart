@@ -31,18 +31,18 @@ class homebody extends StatefulWidget {
 
 class _homebodyState extends State<homebody> {
   List<String> images = [
-    "assets/images/cleopatra1.jpg",
-    "assets/images/cleopatra2.jpg",
-    "assets/images/splash2.png"
+    "assets/images/cleopatra1.png",
+    "assets/images/cleopatra2.png",
+    "assets/images/cleopatra3.png"
   ];
 
   ss.CarouselSliderController controller = ss.CarouselSliderController();
 
   List homegrid = [
-    {"name": 'الحقن', "image": "assets/images/injectionimage.png", "page": production()},
+    {"name": 'الحقن', "image": "assets/images/injection.png", "page": production()},
     {
-      "name": 'صالة اللقمه',
-      "image": "assets/images/ss.jpeg",
+      "name": 'صالة التجميع',
+      "image": "assets/images/collection.png",
       "page": injectionco()
     },
     {"name": 'الاسطمبات', "image": "assets/images/molds.png", "page": molds()},

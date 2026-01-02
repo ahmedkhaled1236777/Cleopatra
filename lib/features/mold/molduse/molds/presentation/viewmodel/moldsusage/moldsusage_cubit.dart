@@ -22,6 +22,15 @@ class moldusagesCubit extends Cubit<moldusagesState> {
       emit(addmoldusagesuccess(success_message: success));
     });
   }
+  editmoldusage({required moldusagemodel moldusagemodel}) async {
+    emit(editmoldusageloading());
+    var result = await moldusagerepo.editmoldusage(moldmodel: moldusagemodel);
+    result.fold((failure) {
+      emit(editmoldusagefailure(error_message: failure.error_message));
+    }, (success) {
+      emit(editmoldusagesuccess(success_message: success));
+    });
+  }
 
   getmoldusages() async {
     emit(getmoldusageloading());
@@ -30,16 +39,8 @@ class moldusagesCubit extends Cubit<moldusagesState> {
       emit(getmoldusagefailure(error_message: failure.error_message));
     }, (success) {
       mymoldusages = success;
-      List<String> mymolds = [];
       filtermymoldusages = success;
-      success.forEach((e) {
-        mymolds.add(e.moldname);
-      });
-      print("kkkkkkkkkkkkkkkkkk");
-      print(mymolds);
-      cashhelper.setdata(key: "mymolds", value: mymolds);
-      print("zzzzzzzzzzzzzzzzzzzzzzzzzz");
-      print(cashhelper.getdata(key: "mymolds"));
+     
       emit(getmoldusagesuccess(
           success_message: "تم الحصول علي الاسطمبات بنجاح"));
     });

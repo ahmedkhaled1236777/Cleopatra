@@ -249,14 +249,13 @@ class _productionState extends State<production> {
                                                   .realprodcountity,
                                           delet: IconButton(
                                               onPressed: () {
-                                                if (cashhelper.getdata(
-                                                        key: "email") !=
-                                                    "ahmedaaallam123@gmail.com")
+                                                if (!permession.contains(
+                                                    "حذف تقرير حقن")) {
                                                   showdialogerror(
                                                       error:
                                                           "ليس لديك الصلاحيه لحذف التقرير",
                                                       context: context);
-                                                else
+                                                } else {
                                                   awsomdialogerror(
                                                       context: context,
                                                       mywidget: BlocConsumer<
@@ -301,7 +300,7 @@ class _productionState extends State<production> {
                                                                 ElevatedButton(
                                                                     style:
                                                                         const ButtonStyle(
-                                                                      backgroundColor: MaterialStatePropertyAll(Color.fromARGB(
+                                                                      backgroundColor: WidgetStatePropertyAll(Color.fromARGB(
                                                                           255,
                                                                           37,
                                                                           163,
@@ -333,6 +332,7 @@ class _productionState extends State<production> {
                                                       ),
                                                       tittle:
                                                           "هل تريد حذف تقرير ماكينه رقم ${BlocProvider.of<productioncuibt>(context).myproduction[i].machinenumber}");
+                                                }
                                               },
                                               icon: Icon(
                                                 deleteicon,

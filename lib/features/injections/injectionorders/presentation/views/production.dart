@@ -1,3 +1,5 @@
+import 'package:cleopatra/features/injections/injectionorders/presentation/views/widgets/alertcontent.dart';
+import 'package:cleopatra/features/mold/molduse/molds/presentation/viewmodel/moldsusage/moldsusage_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -35,7 +37,7 @@ class _injectionState extends State<injectionhall> {
     "رقم\nالاوردر",
     "اسم\nالمنتج",
     "الكميه",
-    "حالة\nالاوردر",
+    "الكميه\nالمتبقيه",
     "تعديل",
     "حذف",
   ];
@@ -44,11 +46,7 @@ class _injectionState extends State<injectionhall> {
     await BlocProvider.of<injectionhallcuibt>(context)
         .getinjection(status: widget.status);
 
-    if (BlocProvider.of<productioncuibt>(context).timers.isEmpty) {
-      await BlocProvider.of<productioncuibt>(context).gettimers();
-    }
-    if (BlocProvider.of<productioncuibt>(context).diagnoses.isEmpty)
-      await BlocProvider.of<productioncuibt>(context).getdiagnoses();
+  
   }
 
   @override
@@ -118,46 +116,12 @@ class _injectionState extends State<injectionhall> {
                                         error: "عفوا تم انتهاء الاوردر",
                                         context: context);
                                   } else {
-                                    if (!permession.contains('تعديل اوردر حقن'))
+                                    if (!permession.contains('تعديل اوردر حقن')) {
                                       showdialogerror(
                                           error: "ليس لديك الصلاحيه",
                                           context: context);
-                                    else {
-                                      var start = DateTime.now();
-                                      var end = DateTime.now();
-                                      if (BlocProvider.of<injectionhallcuibt>(
-                                                      context)
-                                                  .myinjection[i]
-                                                  .timeend !=
-                                              "لا يوجد" &&
-                                          BlocProvider.of<injectionhallcuibt>(
-                                                      context)
-                                                  .myinjection[i]
-                                                  .timeend !=
-                                              "لا يوجد") {
-                                        BlocProvider.of<DateCubit>(context)
-                                                .timeto =
-                                            BlocProvider.of<injectionhallcuibt>(
-                                                    context)
-                                                .myinjection[i]
-                                                .timeend!;
-                                        BlocProvider.of<DateCubit>(context)
-                                                .timefrom =
-                                            BlocProvider.of<injectionhallcuibt>(
-                                                    context)
-                                                .myinjection[i]
-                                                .timestart;
-                                        var format = DateFormat("HH:mm");
-                                        start = format.parse(
-                                            BlocProvider.of<DateCubit>(context)
-                                                .timefrom);
-                                        end = format.parse(
-                                            BlocProvider.of<DateCubit>(
-                                                    context)
-                                               
-                                                .timeto);
-                                      }
-
+                                    } else {
+                                
                                       BlocProvider.of<productionusagecuibt>(
                                               context)
                                           .changetype(
@@ -230,8 +194,8 @@ class _injectionState extends State<injectionhall> {
                                                 insetPadding:
                                                     EdgeInsets.all(35),
                                                 content: Updatealert(
-                                                    inittimefrom: start,
-                                                    inittimeto: end,
+                                                  producedquantity: BlocProvider.of<injectionhallcuibt>(context)
+                                                            .myinjection[i].producedquantity,
                                                     notes: TextEditingController(
                                                         text: BlocProvider.of<injectionhallcuibt>(context)
                                                             .myinjection[i]
@@ -255,9 +219,9 @@ class _injectionState extends State<injectionhall> {
                                   }
                                 },
                                 icon: Icon(editeicon)),
-                            status: BlocProvider.of<injectionhallcuibt>(context)
+                            producedquantity: BlocProvider.of<injectionhallcuibt>(context)
                                 .myinjection[i]
-                                .status,
+                                .producedquantity,
                             ordernumber:
                                 BlocProvider.of<injectionhallcuibt>(context)
                                     .myinjection[i]
@@ -279,11 +243,11 @@ class _injectionState extends State<injectionhall> {
                                         error: "عفوا تم انتهاء الاوردر",
                                         context: context);
                                   } else {
-                                    if (!permession.contains('حذف اوردر حقن'))
+                                    if (!permession.contains('حذف اوردر حقن')) {
                                       showdialogerror(
                                           error: "ليس لديك الصلاحيه",
                                           context: context);
-                                    else
+                                    } else {
                                       awsomdialogerror(
                                           context: context,
                                           mywidget: BlocConsumer<
@@ -325,7 +289,7 @@ class _injectionState extends State<injectionhall> {
                                                 child: ElevatedButton(
                                                     style: const ButtonStyle(
                                                       backgroundColor:
-                                                          MaterialStatePropertyAll(
+                                                          WidgetStatePropertyAll(
                                                               Color.fromARGB(
                                                                   255,
                                                                   37,
@@ -356,6 +320,7 @@ class _injectionState extends State<injectionhall> {
                                           ),
                                           tittle:
                                               "هل تريد حذف الاوردر رقم ${BlocProvider.of<injectionhallcuibt>(context).myinjection[i].ordernumber}");
+                                    }
                                   }
                                 },
                                 icon: Icon(
@@ -379,32 +344,91 @@ class _injectionState extends State<injectionhall> {
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (widget.index == 0)
             InkWell(
                 onTap: () async {
-                  if (permession.contains('اضافة اوردر حقن'))
-                    navigateto(context: context, page: addinreport());
-                  else
-                    showdialogerror(
-                        error: "ليس لديك الصلاحيه للدخول لهذه الصفحه",
-                        context: context);
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Container(
+                              height: 20,
+                              alignment: Alignment.topLeft,
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: appcolors.maincolor,
+                                  )),
+                            ),
+                            contentPadding: EdgeInsets.all(10),
+                            backgroundColor: Colors.white,
+                            insetPadding: EdgeInsets.all(35),
+                            content: Alertinjectioncontent(),
+                          );
+                        }); 
                 },
                 child: Container(
                   height: 45,
                   width: 45,
                   child: Icon(
-                    Icons.add,
+                    Icons.search,
                     color: Colors.white,
                   ),
                   decoration: BoxDecoration(
                       color: appcolors.primarycolor,
                       borderRadius: BorderRadius.circular(7)),
+                )),SizedBox(width: 10,),
+            InkWell(
+                onTap: () async {
+ await BlocProvider.of<injectionhallcuibt>(context)
+        .getinjection(status: widget.status);
+                },
+                child: Container(
+                  height: 45,
+                  width: 45,
+                  child: Icon(
+                    Icons.refresh,
+                    color: Colors.white,
+                  ),
+                  decoration: BoxDecoration(
+                      color: appcolors.primarycolor,
+                      borderRadius: BorderRadius.circular(7)),
+                )),SizedBox(width: 10,),
+          if (widget.index == 0)
+            InkWell(
+                onTap: () async {
+                  if (permession.contains('اضافة اوردر حقن')) {
+                    navigateto(context: context, page: addinreport(
+
+                      ordernumber: "${DateTime.now().year}${DateTime.now().month<10?"0${DateTime.now().month}":"${DateTime.now().month}"}${DateTime.now().day<10?"0${DateTime.now().day}":"${DateTime.now().day}"}${DateTime.now().hashCode<10?"0${DateTime.now().hour}":"${DateTime.now().hour}"}${DateTime.now().minute<10?"0${DateTime.now().minute}":"${DateTime.now().minute}"}${DateTime.now().second<10?"0${DateTime.now().second}":"${DateTime.now().second}"}",
+                    ));
+                  } else {
+                    showdialogerror(
+                        error: "ليس لديك الصلاحيه للدخول لهذه الصفحه",
+                        context: context);
+                  }
+                },
+                child: Container(
+                  height: 45,
+                  width: 45,
+                  decoration: BoxDecoration(
+                      color: appcolors.primarycolor,
+                      borderRadius: BorderRadius.circular(7)),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
                 )),
+          
           SizedBox(
             width: 15,
           ),
         ],
       ),
+      SizedBox(height: 10,)
     ]);
   }
 }

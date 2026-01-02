@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "547078489764",
+    "project_id": "elsenwar1-94e9a",
+    "storage_bucket": "elsenwar1-94e9a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547078489764:android:c07f0c4cb25e5a4ef8c831",
+        "android_client_info": {
+          "package_name": "com.example.cleopatra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUYLoVkRhWjyiF33_02Wp9RDnn5_Uk8iw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547078489764:android:743fb4475b9fcd0af8c831",
+        "android_client_info": {
+          "package_name": "com.example.elsalsabil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUYLoVkRhWjyiF33_02Wp9RDnn5_Uk8iw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,7 +5,6 @@ import 'package:cleopatra/core/common/navigation.dart';
 import 'package:cleopatra/core/common/widgets/dialogerror.dart';
 import 'package:cleopatra/features/collection1/average/presentation/view/average.dart';
 import 'package:cleopatra/features/collection1/components/presentation/view/components.dart';
-import 'package:cleopatra/features/injections/injectionmachines/presentation/view/injectionmachines.dart';
 import 'package:cleopatra/features/mold/moldmaintenance/molds/presentation/views/molds.dart';
 import 'package:cleopatra/features/mold/molduse/molds/presentation/views/molds.dart';
 import 'package:cleopatra/features/injections/injection/presentation/views/widgets/widgets/adddiagnoseandfix.dart';
@@ -364,47 +363,7 @@ class newsettings extends StatelessWidget {
                                 ))
                           ],
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(children: [
-                              CircleAvatar(
-                                radius: 13,
-                                backgroundColor: appcolors.primarycolor,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 11,
-                                  child: CircleAvatar(
-                                    radius: 6,
-                                    backgroundColor: appcolors.primarycolor,
-                                  ),
-                                ),
-                              ),
-                            
-                            ]),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "ماكينات الحقن",
-                              style: TextStyle(
-                                  fontFamily: "cairo",
-                                  color: Colors.white,
-                                  fontSize: 17),
-                            ),
-                            Spacer(),
-                            IconButton(
-                                onPressed: () {
-                                    navigateto(
-                                        context: context, page: injectionmachines());
-                                 
-                                },
-                                icon: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: appcolors.primarycolor,
-                                ))
-                          ],
-                        ),
+        
                         SizedBox(
                           height: 20,
                         ),

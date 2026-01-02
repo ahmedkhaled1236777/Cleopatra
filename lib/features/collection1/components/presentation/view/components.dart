@@ -30,8 +30,6 @@ class _componentsState extends State<components> {
 
   final componentsheader = [
     "اسم المنتج",
-    "عرض",
-    "مشاركه",
     "تعديل",
   ];
 
@@ -163,41 +161,11 @@ class _componentsState extends State<components> {
                                                   .name));
                                 },
                                 child: customtablecomponentitem(
-                                  share: IconButton(onPressed: (){
-  if( BlocProvider.of<componentCubit>(context)
-                                      .components[i]
-                                      .url==null){
-                                        showdialogerror(error: "لم يتم رفع فيديو للمنتج حتى الان", context: context);
-
-                                      }
-                                      else{
-_launchUrl(BlocProvider.of<componentCubit>(context)
-                                      .components[i]
-                                      .url!,BlocProvider.of<componentCubit>(context)
-                                      .components[i]
-                                      .name);
-                                      }
-                                  }, icon: Icon(Icons.share,color: appcolors.maincolor,)),
+                                 
                                   name: BlocProvider.of<componentCubit>(context)
                                       .components[i]
                                       .name,
-                                  show:
-                                     IconButton(onPressed: (){
-                                if( BlocProvider.of<componentCubit>(context)
-                                      .components[i]
-                                      .url==null){
-                                        showdialogerror(error: "لم يتم رفع فيديو للمنتج حتى الان", context: context);
-
-                                      }
-                                      else
-navigateto(context: context, page: WebViewVideoScreen(
-  prodname:  BlocProvider.of<componentCubit>(context)
-                                      .components[i]
-                                      .name ,
-  videoUrl:  BlocProvider.of<componentCubit>(context)
-                                      .components[i]
-                                      .url!));
-                                     }, icon: Icon(Icons.play_circle,color: appcolors.primarycolor, )),
+                              
                                   edit: IconButton(
                                       onPressed: () {
                                         showDialog(

@@ -30,16 +30,14 @@ class Updatealert extends StatefulWidget {
   final TextEditingController breakpercentage;
   final TextEditingController masterpersentage;
   final TextEditingController notes;
-  final DateTime inittimefrom;
-  final DateTime inittimeto;
+  final String producedquantity;
   const Updatealert(
       {super.key,
       required this.quantity,
       required this.breakpercentage,
       required this.purepercentaege,
       required this.masterpersentage,
-      required this.inittimefrom,
-      required this.inittimeto,
+      required this.producedquantity,
       required this.notes,
       required this.color,
       required this.ordernumber,
@@ -294,54 +292,8 @@ class _UpdatealertState extends State<Updatealert> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                "وقت بداية الاوردر",
-                                style: TextStyle(
-                                    color: appcolors.maincolor,
-                                    fontFamily: "cairo"),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Time(
-                                inittime: widget.inittimefrom,
-                                onChange: (date) {
-                                  BlocProvider.of<DateCubit>(context)
-                                      .changetimefrom(date);
-                                },
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "وقت نهاية الاوردر",
-                                style: TextStyle(
-                                    color: appcolors.maincolor,
-                                    fontFamily: "cairo"),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Time(
-                                inittime: widget.inittimeto,
-                                onChange: (date) {
-                                  BlocProvider.of<DateCubit>(context)
-                                      .changetimeto(date);
-                                },
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                    
+                     
                       custommytextform(
                         controller: widget.notes,
                         hintText: "الملاحظات",
@@ -358,7 +310,7 @@ class _UpdatealertState extends State<Updatealert> {
                                 "نعم") {
                               sendnotification(
                                   data:
-                                      "تم انتهاء اوردر رقم ${widget.ordernumber} ${BlocProvider.of<MoldsCubit>(context).moldname} ${widget.color.text} بكم برجاء مراجعه المخزن في التسليمات وكميه الخامه المستلمه");
+                                      "تم انتهاء اوردر رقم ${widget.ordernumber} بكميه ${widget.producedquantity} من ${widget.quantity.text}");
                             }
                             Navigator.pop(context);
                             widget.quantity.clear();
@@ -394,25 +346,14 @@ class _UpdatealertState extends State<Updatealert> {
                                       context: context);
                                 } else {
                                   if (formkey.currentState!.validate()) {
-                                    if (BlocProvider.of<DateCubit>(context)
-                                            .timefrom ==
-                                        "الوقت من") {
-                                      showdialogerror(
-                                          error: "برجاء اختيار بداية الوقت",
-                                          context: context);
-                                    } else if (BlocProvider.of<DateCubit>(
-                                                context)
-                                            .timeto ==
-                                        "الوقت الي") {
-                                      showdialogerror(
-                                          error: "برجاء اختيار نهاية الوقت",
-                                          context: context);
-                                    } else
+                                  
+                                      // ignore: curly_braces_in_flow_control_structures
                                       BlocProvider.of<injectionhallcuibt>(
                                               context)
                                           .updateorder(
                                               injectionmodel:
                                                   injectionhallmodel(
+                                                    producedquantity: widget.producedquantity,
                                       sprue: BlocProvider.of<injectionhallcuibt>(context).type=="بمصب"?true:false,
 
                                         pureper: widget.purepercentaege.text,
@@ -421,12 +362,7 @@ class _UpdatealertState extends State<Updatealert> {
                                         materialtype:
                                             BlocProvider.of<MoldsCubit>(context)
                                                 .materialtype,
-                                        timeend:
-                                            BlocProvider.of<DateCubit>(context)
-                                                .timeto,
-                                        timestart:
-                                            BlocProvider.of<DateCubit>(context)
-                                                .timefrom,
+                                      
                                         update: false,
                                         notes: widget.notes.text,
                                         status:

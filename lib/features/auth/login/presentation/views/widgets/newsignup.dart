@@ -348,43 +348,7 @@ class _newsignupState extends State<newsignup> {
                 ],
               ),
             ),
-            Positioned(
-              child: Stack(
-                alignment: Alignment.bottomLeft,
-                children: [
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundColor: Colors.white,
-                    child: image == null
-                        ? CircleAvatar(
-                            radius: 55,
-                            backgroundColor: Colors.amber,
-                            backgroundImage: NetworkImage(
-                                "https://cdn-icons-png.flaticon.com/512/180/180693.png"))
-                        : CircleAvatar(
-                            radius: 55,
-                            backgroundColor: Colors.amber,
-                            backgroundImage: FileImage(image!)),
-                  ),
-                  IconButton(
-                      onPressed: () async {
-                        var imag = await ImagePicker()
-                            .pickImage(source: ImageSource.gallery);
-                        if (imag != null) {
-                          image = File(imag.path);
-
-                          setState(() {});
-                        }
-                      },
-                      icon: Icon(
-                        Icons.camera_alt,
-                        color: Colors.white,
-                      ))
-                ],
-              ),
-              top: MediaQuery.of(context).size.height * 0.2 - 60,
-              left: MediaQuery.of(context).size.width * 0.5 - 60,
-            )
+          
           ],
         ),
       ),
